@@ -1,0 +1,25 @@
+kubectl — Mémo express (TP1)
+============================
+
+# Appliquer tous les manifests
+kubectl apply -f manifests/
+
+# Lister l'état de la stack
+kubectl get ns
+kubectl get deploy,rs,pods,svc -n demo -o wide
+kubectl describe svc api -n demo
+kubectl get endpointslices -n demo
+
+# Suivre un déploiement
+kubectl -n demo rollout status deploy/api
+kubectl -n demo rollout history deploy/api
+
+# Logs / Exec
+kubectl -n demo logs deploy/api -f
+kubectl -n demo exec deploy/front -- sh -lc 'wget -qO- http://api:80/'
+
+# Port-forward (alternative à NodePort)
+kubectl -n demo port-forward svc/front 8080:80
+
+# Nettoyage
+kubectl delete ns demo
